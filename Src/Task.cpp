@@ -10,14 +10,15 @@ std::ostream& Task::print(std::ostream& out) const
 	return out;
 }
 
-Task::Task():mPeriod(0), mExecutionTime(0), mResponseTime(0), mDeadline(0)
+Task::Task() :mPeriod(0), mExecutionTime(0), mResponseTime(0), mDeadline(0)
 {
-
+	
 }
 
-Task::Task(const unsigned int period, const unsigned int deadline, const unsigned int executionTime):mPeriod(period), mExecutionTime(executionTime), mResponseTime(0), mDeadline(deadline)
+Task::Task(const unsigned int period, const unsigned int deadline, const unsigned int executionTime) : mPeriod(period), mExecutionTime(executionTime), mResponseTime(0), mDeadline(deadline)
 {
 }
+
 
 Task& Task::operator=(const Task& task)
 {

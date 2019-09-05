@@ -28,7 +28,7 @@ public:
 	//getters & setters
 	inline const std::vector<Task> getTasks()const { return mTasks; }
 	inline void setTasks(const std::vector<Task>& tasks) { mTasks = tasks; }
-	//rta
+	//real-time analysis
 	bool doResponseTimeAnalysis();
 	//utilities
 	bool toFile(const std::string& filename)const;

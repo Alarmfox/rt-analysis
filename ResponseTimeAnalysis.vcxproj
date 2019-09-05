@@ -142,12 +142,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Headers\ResourceTask.h" />
     <ClInclude Include="Headers\Semaphore.h" />
     <ClInclude Include="Headers\TaskSet.h" />
     <ClInclude Include="Headers\Task.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Src\ResourceTask.cpp" />
     <ClCompile Include="Src\Task.cpp" />
     <ClCompile Include="Src\TaskSet.cpp" />
   </ItemGroup>

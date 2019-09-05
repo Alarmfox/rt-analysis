@@ -24,6 +24,9 @@
     <ClInclude Include="Headers\Semaphore.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="Headers\ResourceTask.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Task.cpp">
@@ -33,6 +36,9 @@
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ResourceTask.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>

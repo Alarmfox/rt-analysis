@@ -1,6 +1,9 @@
 #pragma once
 
 #include <iostream>
+#include <Semaphore.h>
+#include <vector>
+
 
 class Task {
 
@@ -12,7 +15,7 @@ private:
 	unsigned int mDeadline;
 	unsigned int mExecutionTime;
 	unsigned int mResponseTime;
-
+	
 protected:
 	std::ostream& print(std::ostream& out)const;
 
@@ -28,7 +31,7 @@ public:
 	inline void setResponseTime(const unsigned int responseTime) { mResponseTime = responseTime; }
 	//operators
 	Task& operator = (const Task& task);
-	inline bool operator < (const Task& task)const { return mPeriod < task.getPeriod(); }
+	inline bool operator < (const Task& task)const { return mDeadline < task.getDeadline(); }
 	//utilities
 
 	
