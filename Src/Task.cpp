@@ -1,5 +1,15 @@
 #include "Task.h"
 
+std::ostream& Task::print(std::ostream& out) const
+{
+	out << getPeriod() << '\t';
+	out << getExecutionTime() << '\t';
+	out << getPriority() << '\t';
+	out << getResponseTime() << '\t';
+
+	return out;
+}
+
 Task::Task():mPeriod(0), mExecutionTime(0), mPriority(0), mResponseTime(0)
 {
 

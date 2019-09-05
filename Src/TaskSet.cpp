@@ -7,15 +7,21 @@ unsigned int TaskSet::doInterferenceForN(const unsigned int index, const unsigne
 	for (unsigned int i = 0; i < index; i++) {
 
 		partialInterference += ceil(((float)oldInterference / mTasks[i].getPeriod())) * mTasks[i].getExecutionTime();
-		//std::cout <<"Partial: "<< partialInterference << std::endl;
-		//std::cout <<"Division: "<< ((float)oldInterference / mTasks[i].getPeriod()) << std::endl;
-		//std::cout <<"Ceil: "<< ceil((float)(oldInterference / mTasks[i].getPeriod())) << std::endl;
 		
-
 	}
 		
-
 	return partialInterference;
+}
+
+
+std::ostream& TaskSet::print(std::ostream& out) const
+{
+	for (unsigned int i = 0; i < mTasks.size(); i++) {
+		out << 'J' << i + 1 << '\t';
+		out << mTasks[i] << std::endl;
+	}
+	return out;
+	
 }
 
 TaskSet::TaskSet(const std::string& filename) {
@@ -45,50 +51,50 @@ TaskSet::TaskSet(const std::string& filename) {
 
 bool TaskSet::doResponseTimeAnalysis() {
 
-	unsigned int oldInterference, newInterference;
+	unsigned int previousResponseTime, nextResponseTime;
 
 	for (unsigned int i = 0; i < mTasks.size(); i++) {
 		
-		newInterference = mTasks[i].getExecutionTime();
+		nextResponseTime = mTasks[i].getExecutionTime();
 
 		do
 		{
-			oldInterference = newInterference;
-			newInterference = mTasks[i].getExecutionTime() + doInterferenceForN(i, oldInterference);
-			if (newInterference > mTasks[i].getPeriod())
+			previousResponseTime = nextResponseTime;
+			nextResponseTime = mTasks[i].getExecutionTime() + doInterferenceForN(i, previousResponseTime);
+			if (nextResponseTime > mTasks[i].getPeriod())
 				return false;
-			else if (newInterference == oldInterference) {
-				mTasks[i].setResponseTime(newInterference);
-				//std::cout << newInterference << std::endl;
+			else if (nextResponseTime == previousResponseTime) {
+				mTasks[i].setResponseTime(nextResponseTime);
+				//std::cout << nextResponseTime << std::endl;
 			}
 				
 
-		} while (newInterference > oldInterference);
+		} while (nextResponseTime > previousResponseTime);
 	}
 	return true;
 
 }
 
-void TaskSet::printSet() const
+bool TaskSet::toFile(const std::string& filename) const
 {
-	std::cout << "\t******TASK PRINTING******"<<std::endl;
-	std::cout << "Task\tPer\tWCET\tPRIO\tRT" << std::endl;
-		for (unsigned int i = 0; i < mTasks.size(); i++) {
-			std::cout << 'J' << i+1 << '\t';
-			std::cout << mTasks[i].getPeriod() << '\t';
-			std::cout << mTasks[i].getExecutionTime() << '\t';
-			std::cout << mTasks[i].getPriority() << '\t';
-			std::cout << mTasks[i].getResponseTime() <<std::endl;
+	std::ofstream file(TASK_FILE_PATH + filename + ".txt");
+
+	if (file.fail()) {
+		return false;
 	}
-		
+	file << *this;
+
+	file.close();
+	return true;
+	
 }
-/*
-void TaskSet::sortByPeriod()
+
+void TaskSet::applyRateMonotonic()
 {
 	std::sort(mTasks.begin(), mTasks.end());
 }
 
-*/
+
 
 
 
