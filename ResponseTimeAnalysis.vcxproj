@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Headers\Semaphore.h" />
     <ClInclude Include="Headers\TaskSet.h" />
     <ClInclude Include="Headers\Task.h" />
   </ItemGroup>

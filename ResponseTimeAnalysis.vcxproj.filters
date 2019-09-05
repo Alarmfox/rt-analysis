@@ -21,6 +21,9 @@
     <ClInclude Include="Headers\TaskSet.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="Headers\Semaphore.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Task.cpp">

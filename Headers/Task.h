@@ -9,8 +9,8 @@ class Task {
 
 private:
 	unsigned int mPeriod;
+	unsigned int mDeadline;
 	unsigned int mExecutionTime;
-	unsigned int mPriority;
 	unsigned int mResponseTime;
 
 protected:
@@ -19,13 +19,12 @@ protected:
 public:
 	//constructors
 	Task();
-	Task(const unsigned int period, const unsigned int executionTime);
+	Task(const unsigned int period, const unsigned int deadline,const unsigned int executionTime);
 	//getters & setters
 	inline const unsigned int getPeriod()const { return mPeriod; }
 	inline const unsigned int getExecutionTime()const { return mExecutionTime; }
-	inline const unsigned int getPriority()const { return mPriority; }
 	inline const unsigned int getResponseTime() const { return mResponseTime; }
-	inline void setPriority(const unsigned int priority) { mPriority = priority; }
+	inline const unsigned int getDeadline()const { return mDeadline; }
 	inline void setResponseTime(const unsigned int responseTime) { mResponseTime = responseTime; }
 	//operators
 	Task& operator = (const Task& task);

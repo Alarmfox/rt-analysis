@@ -6,7 +6,7 @@ unsigned int TaskSet::doInterferenceForN(const unsigned int index, const unsigne
 
 	for (unsigned int i = 0; i < index; i++) {
 
-		partialInterference += ceil(((float)oldInterference / mTasks[i].getPeriod())) * mTasks[i].getExecutionTime();
+		partialInterference += ceil(((float)oldInterference / mTasks[i].getDeadline())) * mTasks[i].getExecutionTime();
 		
 	}
 		
@@ -26,7 +26,7 @@ std::ostream& TaskSet::print(std::ostream& out) const
 
 TaskSet::TaskSet(const std::string& filename) {
 	
-	unsigned int period, execTime;
+	unsigned int period, execTime, deadline;
 
 	std::string file = TASK_FILE_PATH + filename + ".txt";
 	std::ifstream input(file);
@@ -38,8 +38,8 @@ TaskSet::TaskSet(const std::string& filename) {
 
 	while(!input.eof()) {
 
-		input >> period >> execTime;
-		Task task(period, execTime);
+		input >> period >> deadline >>execTime;
+		Task task(period,deadline, execTime);
 		mTasks.push_back(task);
 
 	}
@@ -61,7 +61,7 @@ bool TaskSet::doResponseTimeAnalysis() {
 		{
 			previousResponseTime = nextResponseTime;
 			nextResponseTime = mTasks[i].getExecutionTime() + doInterferenceForN(i, previousResponseTime);
-			if (nextResponseTime > mTasks[i].getPeriod())
+			if (nextResponseTime > mTasks[i].getDeadline())
 				return false;
 			else if (nextResponseTime == previousResponseTime) {
 				mTasks[i].setResponseTime(nextResponseTime);
