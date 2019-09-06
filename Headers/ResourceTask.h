@@ -15,7 +15,7 @@ protected:
 
 public:
 	//constructors
-	ResourceTask();
+	explicit ResourceTask();
 	ResourceTask(const unsigned int period, const unsigned int deadline, const unsigned int executionTime, std::vector<Semaphore>& semaphores);
 	ResourceTask(const ResourceTask& task);
 	//getters setters

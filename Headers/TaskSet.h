@@ -24,7 +24,7 @@ protected:
 
 public:
 	//constructor
-	TaskSet(const std::string& filename = "tasks");
+	explicit TaskSet(const std::string& filename = "tasks");
 	//getters & setters
 	inline const std::vector<Task> getTasks()const { return mTasks; }
 	inline void setTasks(const std::vector<Task>& tasks) { mTasks = tasks; }
