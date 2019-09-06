@@ -17,6 +17,7 @@ public:
 	//constructors
 	ResourceTask();
 	ResourceTask(const unsigned int period, const unsigned int deadline, const unsigned int executionTime, std::vector<Semaphore>& semaphores);
+	ResourceTask(const ResourceTask& task);
 	//getters setters
 	inline const std::vector<Semaphore> getResourceSemaphores()const { return mResourceSemaphores; }
 	inline const unsigned int getBlockingTime()const { return mBlockingTime; }

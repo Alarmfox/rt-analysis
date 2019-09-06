@@ -19,6 +19,9 @@ Task::Task(const unsigned int period, const unsigned int deadline, const unsigne
 {
 }
 
+Task::Task(const Task& task):mPeriod(task.getPeriod()), mDeadline(task.getDeadline()), mExecutionTime(task.getExecutionTime()), mResponseTime(task.getResponseTime())
+{}
+
 
 Task& Task::operator=(const Task& task)
 {

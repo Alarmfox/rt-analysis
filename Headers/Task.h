@@ -15,7 +15,7 @@ private:
 	unsigned int mDeadline;
 	unsigned int mExecutionTime;
 	unsigned int mResponseTime;
-	
+
 protected:
 	std::ostream& print(std::ostream& out)const;
 
@@ -23,6 +23,7 @@ public:
 	//constructors
 	Task();
 	Task(const unsigned int period, const unsigned int deadline,const unsigned int executionTime);
+	Task(const Task& task);
 	//getters & setters
 	inline const unsigned int getPeriod()const { return mPeriod; }
 	inline const unsigned int getExecutionTime()const { return mExecutionTime; }
