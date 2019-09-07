@@ -6,7 +6,7 @@ unsigned int TaskSet::doInterferenceForN(const unsigned int index, const unsigne
 
 	for (unsigned int i = 0; i < index; i++) {
 
-		partialInterference += ceil(((float)oldInterference / mTasks[i].getDeadline())) * mTasks[i].getExecutionTime();
+		partialInterference += ceil(((float)oldInterference / mTasks[i].getPeriod())) * mTasks[i].getExecutionTime();
 		
 	}
 		
@@ -61,8 +61,12 @@ bool TaskSet::doResponseTimeAnalysis() {
 		{
 			previousResponseTime = nextResponseTime;
 			nextResponseTime = mTasks[i].getExecutionTime() + doInterferenceForN(i, previousResponseTime);
-			if (nextResponseTime > mTasks[i].getDeadline())
+			if (nextResponseTime > mTasks[i].getPeriod()) {
+				mTasks[i].setResponseTime(UNSCHEDULABLE);
 				return false;
+
+			}
+				
 			else if (nextResponseTime == previousResponseTime) {
 				mTasks[i].setResponseTime(nextResponseTime);
 				//std::cout << nextResponseTime << std::endl;

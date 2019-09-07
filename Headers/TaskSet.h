@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <cmath>
 
+#define UNSCHEDULABLE 0
+
 const std::string TASK_FILE_PATH = "data/";
 
 class TaskSet {
