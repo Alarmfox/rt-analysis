@@ -34,6 +34,6 @@ public:
 	bool doResponseTimeAnalysis();
 	//utilities
 	bool toFile(const std::string& filename)const;
-	void applyRateMonotonic();
+	void applyDeadlineMonotonic();
 };
 

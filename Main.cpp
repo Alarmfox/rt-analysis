@@ -3,7 +3,7 @@
 int main(void) {
 
 	TaskSet set;
-	set.applyRateMonotonic();
+	set.applyDeadlineMonotonic();
 
 	if (set.doResponseTimeAnalysis()) {
 
@@ -17,7 +17,7 @@ int main(void) {
 	}
 	if (!set.toFile("results"))
 		std::cout << "Could not save on file" << std::endl;
-	
-	std::cin.get();
+
+	system("PAUSE");
 	return 0;
 }

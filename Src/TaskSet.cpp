@@ -61,7 +61,7 @@ bool TaskSet::doResponseTimeAnalysis() {
 		{
 			previousResponseTime = nextResponseTime;
 			nextResponseTime = mTasks[i].getExecutionTime() + doInterferenceForN(i, previousResponseTime);
-			if (nextResponseTime > mTasks[i].getPeriod()) {
+			if (nextResponseTime > mTasks[i].getDeadline()) {
 				mTasks[i].setResponseTime(UNSCHEDULABLE);
 				return false;
 
@@ -93,7 +93,7 @@ bool TaskSet::toFile(const std::string& filename) const
 	
 }
 
-void TaskSet::applyRateMonotonic()
+void TaskSet::applyDeadlineMonotonic()
 {
 	std::sort(mTasks.begin(), mTasks.end());
 }
