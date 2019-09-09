@@ -24,7 +24,7 @@ std::ostream& TaskSet::print(std::ostream& out) const
 	
 }
 
-TaskSet::TaskSet(const std::string& filename) {
+TaskSet::TaskSet(const std::string& filename):mUtilizationFactor(0) {
 	
 	unsigned int period, execTime, deadline;
 
@@ -43,16 +43,18 @@ TaskSet::TaskSet(const std::string& filename) {
 		mTasks.push_back(task);
 
 	}
-
 	input.close();
+
+	applyDeadlineMonotonic();
+	doProcessorUtilization();
 
 }
 
 
 bool TaskSet::doResponseTimeAnalysis() {
 
-	unsigned int previousResponseTime, nextResponseTime;
 
+	unsigned int previousResponseTime, nextResponseTime;
 	for (unsigned int i = 0; i < mTasks.size(); i++) {
 		
 		nextResponseTime = mTasks[i].getExecutionTime();
@@ -79,6 +81,31 @@ bool TaskSet::doResponseTimeAnalysis() {
 
 }
 
+bool TaskSet::doInterferenceTest()
+{
+	unsigned int interference;
+
+	for (unsigned int i = 0; i < mTasks.size(); i++) {
+		interference = 0;
+		for (int j = 0; j < i; j++) {
+			interference += ceil(((float)mTasks[i].getDeadline()/ mTasks[j].getPeriod())) * mTasks[j].getExecutionTime();
+		}
+		//std::cout << "Interference for task " << i+1 << ": " << interference << std::endl;
+		mTasks[i].setInterference(interference);
+		
+		if (mTasks[i].getInterference() + mTasks[i].getExecutionTime() > mTasks[i].getDeadline()) {
+			return false;
+		}	
+	}
+	return true;
+}
+
+bool TaskSet::doLiuLaylandTest()
+{
+	int n = mTasks.size();
+	return mUtilizationFactor <= (n * exp2(1/n) - 1);
+}
+
 bool TaskSet::toFile(const std::string& filename) const
 {
 	std::ofstream file(TASK_FILE_PATH + filename + ".txt");
@@ -86,6 +113,7 @@ bool TaskSet::toFile(const std::string& filename) const
 	if (file.fail()) {
 		return false;
 	}
+	file << "Utilization factor" << mUtilizationFactor << std::endl;
 	file << *this;
 
 	file.close();
@@ -96,6 +124,13 @@ bool TaskSet::toFile(const std::string& filename) const
 void TaskSet::applyDeadlineMonotonic()
 {
 	std::sort(mTasks.begin(), mTasks.end());
+}
+
+void TaskSet::doProcessorUtilization()
+{
+	mUtilizationFactor = 0;
+	for (unsigned int i = 0; i < mTasks.size(); i++)
+		mUtilizationFactor += ((float) mTasks[i].getExecutionTime()) / mTasks[i].getDeadline();
 }
 
 

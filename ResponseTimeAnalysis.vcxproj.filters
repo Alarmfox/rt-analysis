@@ -42,4 +42,8 @@
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="data\tasks.txt" />
+    <Text Include="data\results.txt" />
+  </ItemGroup>
 </Project>

@@ -14,6 +14,7 @@ private:
 	unsigned int mPeriod;
 	unsigned int mDeadline;
 	unsigned int mExecutionTime;
+	unsigned int mInterference;
 	unsigned int mResponseTime;
 
 protected:
@@ -29,6 +30,8 @@ public:
 	inline const unsigned int getExecutionTime()const { return mExecutionTime; }
 	inline const unsigned int getResponseTime() const { return mResponseTime; }
 	inline const unsigned int getDeadline()const { return mDeadline; }
+	inline const unsigned int getInterference()const { return mInterference; }
+	inline void setInterference(const unsigned int interference) { mInterference = interference; }
 	inline void setResponseTime(const unsigned int responseTime) { mResponseTime = responseTime; }
 	//operators
 	Task& operator = (const Task& task);

@@ -153,6 +153,10 @@
     <ClCompile Include="Src\Task.cpp" />
     <ClCompile Include="Src\TaskSet.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="data\results.txt" />
+    <Text Include="data\tasks.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
