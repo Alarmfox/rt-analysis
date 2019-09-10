@@ -2,21 +2,33 @@
 
 int main(void) {
 
-	TaskSet set;
+	static TaskSet set;
+
+
 	int choice;
+	std::string filename;
 
 	std::cout << "1 Response Time Analysis schedulability test" << std::endl;
 	std::cout << "2 Interference schedulability test" << std::endl;
 	std::cout << "3 Liu and Layland schedulability test" << std::endl;
 	std::cout << "4 Save set on file" << std::endl;
 	std::cout << "5 Print set values" << std::endl;
+	std::cout << "6 Read from file" << std::endl;
+	std::cout << "9 Show this menu" << std::endl;
 	std::cout << "0 Exit the program" << std::endl;
 
 	do
 	{
-		std::cout << "Choice what to do:" << std::endl;
-
-		std::cin >> choice;
+		
+		if (!set.getReadingStatus()) {
+			std::cout << "File " << filename << " not found. Set not initialized. Insert filename: " << std::endl;
+			choice = 6;
+		}
+		else {
+			std::cout << "Choice what to do:" << std::endl;
+			std::cin >> choice;
+		}
+		
 
 		switch (choice)
 		{
@@ -31,7 +43,6 @@ int main(void) {
 			else
 			{
 				std::cout << "Unschedulable set" << std::endl;
-
 			}
 			break;
 		}
@@ -42,7 +53,6 @@ int main(void) {
 			else
 			{
 				std::cout << "Unschedulable set" << std::endl;
-
 			}
 	
 			break;
@@ -53,7 +63,6 @@ int main(void) {
 			else
 			{
 				std::cout << "Unschedulable set" << std::endl;
-
 			}
 
 			break;
@@ -61,7 +70,6 @@ int main(void) {
 
 		case 4: {
 			std::cout << "Enter filename [results]: ";
-			std::string filename;
 			std::cin >> filename;
 
 			if (filename.empty())
@@ -69,7 +77,6 @@ int main(void) {
 
 			if (!set.toFile(filename)) {
 				std::cout << "Could not save on file!" << std::endl;
-
 			}
 			break;
 		}
@@ -82,7 +89,23 @@ int main(void) {
 			std::cout << set << std::endl;
 			break;
 		}
-
+		case 6: {
+			std::cout << "Enter filename: ";
+			std::cin >> filename;
+			set.readSetFromFile(filename);
+			break;
+		}
+		case 9: {
+			std::cout << "1 Response Time Analysis schedulability test" << std::endl;
+			std::cout << "2 Interference schedulability test" << std::endl;
+			std::cout << "3 Liu and Layland schedulability test" << std::endl;
+			std::cout << "4 Save set on file" << std::endl;
+			std::cout << "5 Print set values" << std::endl;
+			std::cout << "6 Read from file" << std::endl;
+			std::cout << "9 Show this menu" << std::endl;
+			std::cout << "0 Exit the program" << std::endl;
+			break;
+		}
 		default:
 			std::cout << "Program terminated" << std::endl;
 			choice = 0;
@@ -92,7 +115,6 @@ int main(void) {
 		std::cout << std::endl;
 
 	} while (choice);
-		
-	system("PAUSE");
+	
 	return 0;
 }

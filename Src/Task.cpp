@@ -11,6 +11,12 @@ std::ostream& Task::print(std::ostream& out) const
 	return out;
 }
 
+std::istream& Task::read(std::istream& in)
+{
+	in >> mPeriod >> mDeadline >> mExecutionTime;
+	return in;
+}
+
 Task::Task() :mPeriod(0), mExecutionTime(0), mResponseTime(0), mDeadline(0), mInterference(0)
 {
 	

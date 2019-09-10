@@ -9,6 +9,7 @@ class Task {
 
 	//friend
 	friend std::ostream& operator<<(std::ostream& out, const Task& task) { return task.print(out); }
+	friend std::istream& operator>>(std::istream& in, Task& task) { return task.read(in); }
 
 private:
 	unsigned int mPeriod;
@@ -19,7 +20,7 @@ private:
 
 protected:
 	std::ostream& print(std::ostream& out)const;
-
+	std::istream& read(std::istream& in);
 public:
 	//constructors
 	Task();

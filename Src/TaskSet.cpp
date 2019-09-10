@@ -24,30 +24,28 @@ std::ostream& TaskSet::print(std::ostream& out) const
 	
 }
 
-TaskSet::TaskSet(const std::string& filename):mUtilizationFactor(0) {
-	
+std::istream& TaskSet::read(std::istream& in)
+{
 	unsigned int period, execTime, deadline;
+	while (!in.eof()) {
 
-	std::string file = TASK_FILE_PATH + filename + ".txt";
-	std::ifstream input(file);
-
-	if (input.fail()) {
-		std::cout << "Wrong file path! Terminating"<<std::endl;
-		exit(-1);
-	}
-
-	while(!input.eof()) {
-
-		input >> period >> deadline >>execTime;
-		Task task(period,deadline, execTime);
+		
+		Task task;
+		in >> task;
 		mTasks.push_back(task);
 
 	}
-	input.close();
+	
+	return in;
+}
 
+TaskSet::TaskSet(const std::string& filename):mUtilizationFactor(0) {
+	
+	
+	fromFile(filename);
 	applyDeadlineMonotonic();
 	doProcessorUtilization();
-
+	
 }
 
 
@@ -113,12 +111,34 @@ bool TaskSet::toFile(const std::string& filename) const
 	if (file.fail()) {
 		return false;
 	}
-	file << "Utilization factor" << mUtilizationFactor << std::endl;
+	file << "Utilization factor " << mUtilizationFactor << std::endl;
 	file << *this;
 
 	file.close();
 	return true;
 	
+}
+
+bool TaskSet::readSetFromFile(const std::string& filename)
+{
+	mTasks.clear();
+	fromFile(filename);
+	return true;
+}
+
+void TaskSet::fromFile(const std::string& filename)
+{
+	std::string file = TASK_FILE_PATH + filename + ".txt";
+	std::ifstream input(file);
+
+	if (input.fail()) {
+		std::cout << "Wrong file path! Terminating" << std::endl;
+		mFailed = false;
+	}
+	read(input);
+	
+	input.close();
+	mFailed = true;
 }
 
 void TaskSet::applyDeadlineMonotonic()
