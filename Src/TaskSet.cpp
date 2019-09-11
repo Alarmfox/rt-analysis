@@ -24,7 +24,6 @@ std::ostream& TaskSet::print(std::ostream& out) const
 
 std::istream& TaskSet::read(std::istream& in)
 {
-	unsigned int period, execTime, deadline;
 	while (!in.eof()) {	
 		Task task;
 		in >> task;
@@ -68,7 +67,7 @@ bool TaskSet::doInterferenceTest()
 
 	for (unsigned int i = 0; i < mTasks.size(); i++) {
 		interference = 0;
-		for (int j = 0; j < i; j++) {
+		for (unsigned int j = 0; j < i; j++) {
 			interference += ceil(((float)mTasks[i].getDeadline()/ mTasks[j].getPeriod())) * mTasks[j].getExecutionTime();
 		}
 		//std::cout << "Interference for task " << i+1 << ": " << interference << std::endl;
@@ -87,24 +86,19 @@ bool TaskSet::doLiuLaylandTest()
 	return mUtilizationFactor <= (n * exp2(1/n) - 1);
 }
 
-bool TaskSet::init(const std::string& filename)
-{
-
-	return true;
-}
-
 bool TaskSet::loadTasks(const std::string& filename)
 {
+	bool result = true;
 	if (!mTasks.empty())
 		mTasks.clear();
 	if (filename.empty())
-		return false;
+		result = false;
 
-	fromFile(filename);
+	result = fromFile(filename);
 	applyDeadlineMonotonic();
 	doProcessorUtilization();
 
-	return true;
+	return result;
 	
 }
 

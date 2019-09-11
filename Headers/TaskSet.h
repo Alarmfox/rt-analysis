@@ -26,20 +26,21 @@ protected:
 	std::ostream& print(std::ostream& out)const;
 	std::istream& read(std::istream& in);
 public:
+	//constructor
+	explicit TaskSet() :mUtilizationFactor(0) {};
 	//real-time analysis
 	bool doResponseTimeAnalysis();
 	bool doInterferenceTest();
 	bool doLiuLaylandTest();
+	//getter
+	inline const float getUtilizationFactor()const { return mUtilizationFactor; }
 	//user
 	bool loadTasks(const std::string& filename);
 	bool save(const std::string& filename)const;
 
 private:
-	//constructor
-	explicit TaskSet() :mUtilizationFactor(0) {};
 	//getters setters
 	inline const std::vector<Task> getTasks()const { return mTasks; }
-	inline const float getUtilizationFactor()const { return mUtilizationFactor; }
 	inline void setTasks(const std::vector<Task>& tasks) { mTasks = tasks; }
 	//utils
 	void applyDeadlineMonotonic();

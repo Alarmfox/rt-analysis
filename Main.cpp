@@ -28,12 +28,10 @@ int main(void) {
 			choice = 6;
 		}
 		else {
-			std::cout << "Tasks loaded successfully!" << std::endl;
-			std::cout << "Choose what to do" << std::endl;
+			std::cout << "Choose what to do: ";
 			std::cin >> choice;
 		}
-		
-
+	
 		switch (choice)
 		{
 		case 0:
@@ -51,18 +49,18 @@ int main(void) {
 			break;
 		}
 		case 2: {
-			
-			if(set->doInterferenceTest())
+
+			if (set->doInterferenceTest())
 				std::cout << "Schedulable set" << std::endl;
 			else
 			{
 				std::cout << "Unschedulable set" << std::endl;
 			}
-	
+
 			break;
 		}
 		case 3: {
-			if(set->doLiuLaylandTest())
+			if (set->doLiuLaylandTest())
 				std::cout << "Schedulable set" << std::endl;
 			else
 			{
@@ -76,18 +74,17 @@ int main(void) {
 			std::cout << "Enter filename [results]: ";
 			std::cin >> filename;
 
-			if (!set->toFile(filename)) {
+			if (!set->save(filename) ){
 				std::cout << "Could not save on file!" << std::endl;
 			}
 			break;
 		}
 
 		case 5: {
-
 			std::cout << "\t******TASK PRINTING******" << std::endl;
-			std::cout << "Utilization factor: " << set.getUtilizationFactor() << std::endl;
+			std::cout << "Utilization factor: " << set->getUtilizationFactor() << std::endl;
 			std::cout << "Task\tPer\tDeadln\tWCET\tRT\tInt" << std::endl;
-			std::cout << set << std::endl;
+			std::cout << *set << std::endl;
 			break;
 		}
 		case 6: {
@@ -113,9 +110,8 @@ int main(void) {
 			break;
 		}
 
-		std::cout << std::endl;
-
 	} while (choice);
 	
+	delete set;
 	return 0;
 }
