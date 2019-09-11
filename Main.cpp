@@ -2,9 +2,6 @@
 
 int main(void) {
 
-	static TaskSet set;
-
-
 	int choice;
 	std::string filename;
 
@@ -17,15 +14,22 @@ int main(void) {
 	std::cout << "9 Show this menu" << std::endl;
 	std::cout << "0 Exit the program" << std::endl;
 
+	std::cout << "Type filename: ";
+	std::cin >> filename;
+
+	static TaskSet *set = new TaskSet;
+
+	bool init = set->loadTasks(filename);
+
 	do
 	{
-		
-		if (!set.getReadingStatus()) {
-			std::cout << "File " << filename << " not found. Set not initialized. Insert filename: " << std::endl;
+		if (!init) {
+			std::cout << "Unable to load tasks: invalid filename" << std::endl;
 			choice = 6;
 		}
 		else {
-			std::cout << "Choice what to do:" << std::endl;
+			std::cout << "Tasks loaded successfully!" << std::endl;
+			std::cout << "Choose what to do" << std::endl;
 			std::cin >> choice;
 		}
 		
@@ -38,7 +42,7 @@ int main(void) {
 			break;
 
 		case 1: {
-			if (set.doResponseTimeAnalysis())
+			if (set->doResponseTimeAnalysis())
 				std::cout << "Schedulable set" << std::endl;
 			else
 			{
@@ -48,7 +52,7 @@ int main(void) {
 		}
 		case 2: {
 			
-			if(set.doInterferenceTest())
+			if(set->doInterferenceTest())
 				std::cout << "Schedulable set" << std::endl;
 			else
 			{
@@ -58,7 +62,7 @@ int main(void) {
 			break;
 		}
 		case 3: {
-			if(set.doLiuLaylandTest())
+			if(set->doLiuLaylandTest())
 				std::cout << "Schedulable set" << std::endl;
 			else
 			{
@@ -72,10 +76,7 @@ int main(void) {
 			std::cout << "Enter filename [results]: ";
 			std::cin >> filename;
 
-			if (filename.empty())
-				filename = "results";
-
-			if (!set.toFile(filename)) {
+			if (!set->toFile(filename)) {
 				std::cout << "Could not save on file!" << std::endl;
 			}
 			break;
@@ -92,7 +93,7 @@ int main(void) {
 		case 6: {
 			std::cout << "Enter filename: ";
 			std::cin >> filename;
-			set.readSetFromFile(filename);
+			init = set->loadTasks(filename);
 			break;
 		}
 		case 9: {

@@ -5,9 +5,7 @@ unsigned int TaskSet::doInterferenceForN(const unsigned int index, const unsigne
 	unsigned int partialInterference = 0;
 
 	for (unsigned int i = 0; i < index; i++) {
-
-		partialInterference += ceil(((float)oldInterference / mTasks[i].getPeriod())) * mTasks[i].getExecutionTime();
-		
+		partialInterference += ceil(((float)oldInterference / mTasks[i].getPeriod())) * mTasks[i].getExecutionTime();	
 	}
 		
 	return partialInterference;
@@ -27,25 +25,13 @@ std::ostream& TaskSet::print(std::ostream& out) const
 std::istream& TaskSet::read(std::istream& in)
 {
 	unsigned int period, execTime, deadline;
-	while (!in.eof()) {
-
-		
+	while (!in.eof()) {	
 		Task task;
 		in >> task;
 		mTasks.push_back(task);
-
 	}
 	
 	return in;
-}
-
-TaskSet::TaskSet(const std::string& filename):mUtilizationFactor(0) {
-	
-	
-	fromFile(filename);
-	applyDeadlineMonotonic();
-	doProcessorUtilization();
-	
 }
 
 
@@ -53,10 +39,8 @@ bool TaskSet::doResponseTimeAnalysis() {
 
 
 	unsigned int previousResponseTime, nextResponseTime;
-	for (unsigned int i = 0; i < mTasks.size(); i++) {
-		
+	for (unsigned int i = 0; i < mTasks.size(); i++) {	
 		nextResponseTime = mTasks[i].getExecutionTime();
-
 		do
 		{
 			previousResponseTime = nextResponseTime;
@@ -64,7 +48,6 @@ bool TaskSet::doResponseTimeAnalysis() {
 			if (nextResponseTime > mTasks[i].getDeadline()) {
 				mTasks[i].setResponseTime(UNSCHEDULABLE);
 				return false;
-
 			}
 				
 			else if (nextResponseTime == previousResponseTime) {
@@ -104,6 +87,32 @@ bool TaskSet::doLiuLaylandTest()
 	return mUtilizationFactor <= (n * exp2(1/n) - 1);
 }
 
+bool TaskSet::init(const std::string& filename)
+{
+
+	return true;
+}
+
+bool TaskSet::loadTasks(const std::string& filename)
+{
+	if (!mTasks.empty())
+		mTasks.clear();
+	if (filename.empty())
+		return false;
+
+	fromFile(filename);
+	applyDeadlineMonotonic();
+	doProcessorUtilization();
+
+	return true;
+	
+}
+
+bool TaskSet::save(const std::string& filename) const
+{
+	return toFile(filename);
+}
+
 bool TaskSet::toFile(const std::string& filename) const
 {
 	std::ofstream file(TASK_FILE_PATH + filename + ".txt");
@@ -119,26 +128,20 @@ bool TaskSet::toFile(const std::string& filename) const
 	
 }
 
-bool TaskSet::readSetFromFile(const std::string& filename)
-{
-	mTasks.clear();
-	fromFile(filename);
-	return true;
-}
 
-void TaskSet::fromFile(const std::string& filename)
+bool TaskSet::fromFile(const std::string& filename)
 {
 	std::string file = TASK_FILE_PATH + filename + ".txt";
 	std::ifstream input(file);
 
 	if (input.fail()) {
-		std::cout << "Wrong file path! Terminating" << std::endl;
-		mFailed = false;
+		return false;
+	
 	}
 	read(input);
-	
 	input.close();
-	mFailed = true;
+
+	return true;
 }
 
 void TaskSet::applyDeadlineMonotonic()
