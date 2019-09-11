@@ -37,13 +37,14 @@ public:
 	//user
 	bool loadTasks(const std::string& filename);
 	bool save(const std::string& filename)const;
+	void applyDeadlineMonotonic();
+	void applyRateMonotonic();
 
 private:
 	//getters setters
 	inline const std::vector<Task> getTasks()const { return mTasks; }
 	inline void setTasks(const std::vector<Task>& tasks) { mTasks = tasks; }
 	//utils
-	void applyDeadlineMonotonic();
 	void doProcessorUtilization();
 	unsigned int doInterferenceForN(const unsigned int index, const unsigned int oldInterference)const;
 	//files

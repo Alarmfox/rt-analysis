@@ -143,6 +143,16 @@ void TaskSet::applyDeadlineMonotonic()
 	std::sort(mTasks.begin(), mTasks.end());
 }
 
+void TaskSet::applyRateMonotonic()
+{
+	std::sort(mTasks.begin(), mTasks.end(), [](const Task& t1, const Task& t2) {
+
+		return t1.getPeriod() < t2.getPeriod();
+		}
+		);
+
+}
+
 void TaskSet::doProcessorUtilization()
 {
 	mUtilizationFactor = 0;

@@ -11,6 +11,8 @@ int main(void) {
 	std::cout << "4 Save set on file" << std::endl;
 	std::cout << "5 Print set values" << std::endl;
 	std::cout << "6 Read from file" << std::endl;
+	std::cout << "7 Apply rate monotonic" << std::endl;
+	std::cout << "8 Apply deadline monotonic" << std::endl;
 	std::cout << "9 Show this menu" << std::endl;
 	std::cout << "0 Exit the program" << std::endl;
 
@@ -20,6 +22,12 @@ int main(void) {
 	static TaskSet *set = new TaskSet;
 
 	bool init = set->loadTasks(filename);
+
+	if (filename=="0") {
+		std::cout << "Program terminated" << std::endl;
+		delete set;
+		return 0;
+	}
 
 	do
 	{
@@ -91,6 +99,14 @@ int main(void) {
 			std::cout << "Enter filename: ";
 			std::cin >> filename;
 			init = set->loadTasks(filename);
+			break;
+		}
+		case 7: {
+			set->applyRateMonotonic();
+			break;
+		}
+		case 8: {
+			set->applyDeadlineMonotonic();
 			break;
 		}
 		case 9: {
