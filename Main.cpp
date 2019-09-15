@@ -16,6 +16,8 @@ int main(void) {
 	std::cout << "9 Show this menu" << std::endl;
 	std::cout << "0 Exit the program" << std::endl;
 
+
+	
 	std::cout << "Type filename: ";
 	std::cin >> filename;
 
@@ -28,7 +30,6 @@ int main(void) {
 		delete set;
 		return 0;
 	}
-
 	do
 	{
 		if (!init) {
@@ -39,7 +40,7 @@ int main(void) {
 			std::cout << "Choose what to do: ";
 			std::cin >> choice;
 		}
-	
+
 		switch (choice)
 		{
 		case 0:
@@ -129,6 +130,7 @@ int main(void) {
 		}
 
 	} while (choice);
+	
 	
 	delete set;
 	return 0;
