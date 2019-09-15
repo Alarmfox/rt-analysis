@@ -27,7 +27,7 @@ protected:
 	std::istream& read(std::istream& in);
 public:
 	//constructor
-	explicit TaskSet() :mUtilizationFactor(0) {};
+	explicit TaskSet() :mUtilizationFactor(0) { };
 	//real-time analysis
 	bool doResponseTimeAnalysis();
 	bool doInterferenceTest();

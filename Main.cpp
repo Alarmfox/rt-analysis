@@ -8,11 +8,11 @@ int main(void) {
 	std::cout << "1 Response Time Analysis schedulability test" << std::endl;
 	std::cout << "2 Interference schedulability test" << std::endl;
 	std::cout << "3 Liu and Layland schedulability test" << std::endl;
-	std::cout << "4 Save set on file" << std::endl;
-	std::cout << "5 Print set values" << std::endl;
-	std::cout << "6 Read from file" << std::endl;
-	std::cout << "7 Apply rate monotonic" << std::endl;
-	std::cout << "8 Apply deadline monotonic" << std::endl;
+	std::cout << "4 Apply rate monotonic" << std::endl;
+	std::cout << "5 Apply deadline monotonic" << std::endl;
+	std::cout << "6 Save set on file" << std::endl;
+	std::cout << "7 Print set values" << std::endl;
+	std::cout << "8 Read from file" << std::endl;
 	std::cout << "9 Show this menu" << std::endl;
 	std::cout << "0 Exit the program" << std::endl;
 
@@ -78,7 +78,7 @@ int main(void) {
 			break;
 		}
 
-		case 4: {
+		case 6: {
 			std::cout << "Enter filename [results]: ";
 			std::cin >> filename;
 
@@ -88,24 +88,24 @@ int main(void) {
 			break;
 		}
 
-		case 5: {
+		case 7: {
 			std::cout << "\t******TASK PRINTING******" << std::endl;
 			std::cout << "Utilization factor: " << set->getUtilizationFactor() << std::endl;
 			std::cout << "Task\tPer\tDeadln\tWCET\tRT\tInt" << std::endl;
 			std::cout << *set << std::endl;
 			break;
 		}
-		case 6: {
+		case 8: {
 			std::cout << "Enter filename: ";
 			std::cin >> filename;
 			init = set->loadTasks(filename);
 			break;
 		}
-		case 7: {
+		case 4: {
 			set->applyRateMonotonic();
 			break;
 		}
-		case 8: {
+		case 5: {
 			set->applyDeadlineMonotonic();
 			break;
 		}
@@ -113,9 +113,11 @@ int main(void) {
 			std::cout << "1 Response Time Analysis schedulability test" << std::endl;
 			std::cout << "2 Interference schedulability test" << std::endl;
 			std::cout << "3 Liu and Layland schedulability test" << std::endl;
-			std::cout << "4 Save set on file" << std::endl;
-			std::cout << "5 Print set values" << std::endl;
-			std::cout << "6 Read from file" << std::endl;
+			std::cout << "4 Apply rate monotonic" << std::endl;
+			std::cout << "5 Apply deadline monotonic" << std::endl;
+			std::cout << "6 Save set on file" << std::endl;
+			std::cout << "7 Print set values" << std::endl;
+			std::cout << "8 Read from file" << std::endl;
 			std::cout << "9 Show this menu" << std::endl;
 			std::cout << "0 Exit the program" << std::endl;
 			break;
