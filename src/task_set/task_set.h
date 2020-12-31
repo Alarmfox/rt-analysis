@@ -2,7 +2,6 @@
 
 #include "../task/task.h"
 #include <string>
-#include <iostream>
 #include <fstream>
 #include <vector>
 #include <algorithm>
@@ -14,6 +13,7 @@ class TaskSet {
 
 	//operator
 	friend std::ostream& operator<<(std::ostream& out, const TaskSet& set) { return set.print(out); }
+	friend std::istream& operator>>(std::istream& in, TaskSet& set) { return set.read(in); }
 
 private:
 	//member variables

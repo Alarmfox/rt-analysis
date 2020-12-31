@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ostream>
 #include "../task/task.h"
 
 class ResourceTask : public Task {

@@ -1,9 +1,8 @@
 #pragma once
 
-#include <iostream>
 #include <vector>
-#include "../semaphore/semaphore.h"
-
+#include <istream>
+#include <ostream>
 
 class Task {
 
@@ -37,7 +36,7 @@ public:
 	//operators
 	Task& operator = (const Task& task);
 	inline bool operator < (const Task& task)const { return mDeadline < task.getDeadline(); }
-	//utilities
+	inline bool operator > (const Task& task)const { return ! (*this < task); }
 
 	
 };
