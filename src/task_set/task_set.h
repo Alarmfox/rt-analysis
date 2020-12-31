@@ -33,8 +33,8 @@ public:
 	//getter
 	inline const float getUtilizationFactor()const { return mUtilizationFactor; }
 	//user
-	bool loadTasks(const std::string& filename);
-	bool save(const std::string& filename)const;
+	void loadFromFile(const std::string& filename);
+	void saveToFile(const std::string& filename)const;
 	void applyDeadlineMonotonic();
 	void applyRateMonotonic();
 
@@ -45,8 +45,6 @@ private:
 	//utils
 	void doProcessorUtilization();
 	unsigned int doInterferenceForN(const unsigned int index, const unsigned int oldInterference)const;
-	//files
-	bool fromFile(const std::string& filename);
-	bool toFile(const std::string& filename)const;
+	
 };
 

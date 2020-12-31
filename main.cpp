@@ -17,29 +17,13 @@ int main(void) {
 	std::cout << "9 Show this menu" << std::endl;
 	std::cout << "0 Exit the program" << std::endl;
 
-
-	
-	std::cout << "Insert a filename: ";
-	std::cin >> filename;
-
-	static TaskSet *set = new TaskSet;
-
-	bool init = set->loadTasks(filename);
-
-	do
-	{
-		if (!init) {
-			std::cout << "Unable to load tasks: invalid filename" << std::endl;
-			break;
-		}
-		else {
-			std::cout << "Choose what to do: ";
-			std::cin >> choice;
-		}
-
-		switch (choice)
-		{
+	TaskSet *set = new TaskSet; 
+	do{
+		std::cout<<"Enter a choice: ";
+		std::cin >> choice;
+		switch (choice){
 		case 0:
+			delete set;
 			std::cout << "Program terminated" << std::endl;
 			choice = 0;
 			break;
@@ -47,8 +31,7 @@ int main(void) {
 		case 1: 
 			if (set->doResponseTimeAnalysis())
 				std::cout << "Schedulable set" << std::endl;
-			else
-			{
+			else{
 				std::cout << "Unschedulable set" << std::endl;
 			}
 			break;
@@ -57,8 +40,7 @@ int main(void) {
 
 			if (set->doInterferenceTest())
 				std::cout << "Schedulable set" << std::endl;
-			else
-			{
+			else{
 				std::cout << "Unschedulable set" << std::endl;
 			}
 
@@ -67,20 +49,28 @@ int main(void) {
 		case 3: 
 			if (set->doLiuLaylandTest())
 				std::cout << "Schedulable set" << std::endl;
-			else
-			{
+			else{
 				std::cout << "Unschedulable set" << std::endl;
 			}
 
 			break;
 		
 		case 6: 
-			std::cout << "Enter filename [results]: ";
-			std::cin >> filename;
-
-			if (!set->save(filename) ){
-				std::cout << "Could not save on file!" << std::endl;
+			std::cout << "Enter filename: ";
+			std::cin.clear();
+			if (!(std::cin >> filename)){
+				std::cout<<"Could not read filename";
+				continue;
 			}
+
+			try{
+				set->saveToFile(filename);
+				
+			}
+			catch(const std::ofstream::failure& e){
+				std::cerr<<"["<<e.code()<<"]"<<"Could not write to:"<<filename<<" "<<e.what() << '\n';
+			}
+			
 			break;
 		
 
@@ -94,8 +84,18 @@ int main(void) {
 		
 		case 8: 
 			std::cout << "Enter filename: ";
-			std::cin >> filename;
-			init = set->loadTasks(filename);
+			std::cin.clear();
+			if (!(std::cin >> filename)){
+				std::cout<<"Could not read filename";
+				continue;
+			}
+			try{
+				set->loadFromFile(filename);
+
+			}
+			catch (const std::ifstream::failure & e){
+				std::cerr<<"["<<e.code()<<"] "<<"Could not read from: "<<filename<<": "<<e.what() << '\n';
+			}
 			break;
 		
 		case 4: 
@@ -129,6 +129,5 @@ int main(void) {
 	
 	
 	
-	delete set;
 	return 0;
 }

@@ -1,7 +1,6 @@
 #include "task_set.h"
-
-unsigned int TaskSet::doInterferenceForN(const unsigned int index, const unsigned int oldInterference) const
-{
+#include <iostream>
+unsigned int TaskSet::doInterferenceForN(const unsigned int index, const unsigned int oldInterference) const{
 	unsigned int partialInterference = 0;
 
 	for (unsigned int i = 0; i < index; i++) {
@@ -12,8 +11,7 @@ unsigned int TaskSet::doInterferenceForN(const unsigned int index, const unsigne
 }
 
 
-std::ostream& TaskSet::print(std::ostream& out) const
-{
+std::ostream& TaskSet::print(std::ostream& out) const{
 	for (unsigned int i = 0; i < mTasks.size(); i++) {
 		out << 'J' << i + 1 << '\t';
 		out << mTasks[i] << std::endl;
@@ -22,8 +20,10 @@ std::ostream& TaskSet::print(std::ostream& out) const
 	
 }
 
-std::istream& TaskSet::read(std::istream& in)
-{
+std::istream& TaskSet::read(std::istream& in){
+	if (!mTasks.empty()){
+		mTasks.clear();
+	}
 	while (!in.eof()) {	
 		Task task;
 		in >> task;
@@ -61,8 +61,7 @@ bool TaskSet::doResponseTimeAnalysis() {
 
 }
 
-bool TaskSet::doInterferenceTest()
-{
+bool TaskSet::doInterferenceTest(){
 	unsigned int interference;
 
 	for (unsigned int i = 0; i < mTasks.size(); i++) {
@@ -79,80 +78,63 @@ bool TaskSet::doInterferenceTest()
 	return true;
 }
 
-bool TaskSet::doLiuLaylandTest()
-{
+bool TaskSet::doLiuLaylandTest(){
 	int n = mTasks.size();
 	return mUtilizationFactor <= (n * exp2(1/n) - 1);
 }
 
-bool TaskSet::loadTasks(const std::string& filename)
-{
-	bool result = true;
-	if (!mTasks.empty())
-		mTasks.clear();
-	if (filename.empty())
-		result = false;
 
-	result = fromFile(filename);
-	applyDeadlineMonotonic();
-	doProcessorUtilization();
+void TaskSet::saveToFile(const std::string& filename) const{
 
-	return result;
-	
-}
+	std::ofstream file;
+	file.exceptions ( std::ifstream::failbit | std::ifstream::badbit );
 
-bool TaskSet::save(const std::string& filename) const
-{
-	return toFile(filename);
-}
+	try
+	{
+		file.open(filename, std::fstream::out);
+		file << "Utilization factor " << mUtilizationFactor << std::endl;
+		file << *this;
 
-bool TaskSet::toFile(const std::string& filename) const
-{
-	std::ofstream file(filename);
-
-	if (file.fail()) {
-		return false;
+		file.close();
 	}
-	file << "Utilization factor " << mUtilizationFactor << std::endl;
-	file << *this;
-
-	file.close();
-	return true;
-	
-}
-
-
-bool TaskSet::fromFile(const std::string& filename)
-{
-	std::ifstream input(filename);
-
-	if (input.fail()) {
-		return false;
-	
+	catch(const std::ios_base::failure& e)
+	{
+		throw e;
 	}
-	read(input);
-	input.close();
-
-	return true;
+	
 }
 
-void TaskSet::applyDeadlineMonotonic()
-{
+
+void TaskSet::loadFromFile(const std::string& filename){
+	std::ifstream file;
+	file.exceptions ( std::ifstream::failbit | std::ifstream::badbit );
+	try
+	{
+		file.open(filename,std::ios_base::in);
+		read(file);
+		file.close();
+		doProcessorUtilization();
+		
+	}
+	catch(const std::ifstream::failure& e)
+	{
+		throw e;
+	}
+
+}
+
+void TaskSet::applyDeadlineMonotonic(){
 	std::sort(mTasks.begin(), mTasks.end());
 }
 
-void TaskSet::applyRateMonotonic()
-{
+void TaskSet::applyRateMonotonic(){
 	std::sort(mTasks.begin(), mTasks.end(), [](const Task& t1, const Task& t2) {
-
 		return t1.getPeriod() < t2.getPeriod();
-		}
-		);
+	});
 
 }
 
-void TaskSet::doProcessorUtilization()
-{
+void TaskSet::doProcessorUtilization(){
 	mUtilizationFactor = 0;
 	for (unsigned int i = 0; i < mTasks.size(); i++)
 		mUtilizationFactor += ((float) mTasks[i].getExecutionTime()) / mTasks[i].getDeadline();

@@ -2,6 +2,7 @@
 
 #include <ostream>
 #include "../task/task.h"
+#include "../semaphore/semaphore.h"
 
 class ResourceTask : public Task {
 
