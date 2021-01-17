@@ -4,4 +4,4 @@ It is written to double check exercises results for my RTOS course.
 
 Roadmap:
   - [x] implement exception mechanism for error handling;
-  - [] implement resource aware task set scheduling;
+  - [ ] implement resource aware task set scheduling;
