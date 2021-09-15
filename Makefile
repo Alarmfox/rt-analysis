@@ -1,16 +1,28 @@
-build: main
-	g++ obj/* -o bin/rt-analysis
+BUILD := $(shell git rev-parse --short HEAD)
+PROJECTNAME=$(shell basename "$(PWD)")
+CC=g++
 
-main: task_set
-	g++ main.cpp -c -o obj/main.o
+CFLAGS=-Wall
 
-task_set: task
-	g++ src/task_set/task_set.cpp -c -o obj/task_set.o
+OBJ_DIR=obj
+BIN_DIR=bin
 
-task: 
-	g++ src/task/task.cpp -c -o obj/task.o
+$(shell mkdir -p $(OBJ_DIR) $(BIN_DIR))
 
+default: main.o
+	$(CC) $(CFLAGS) $(OBJ_DIR)/* -o $(BIN_DIR)/$(PROJECTNAME)
+
+main.o: task_set.o
+	$(CC) $(CFLAGS) main.cpp -c -o $(OBJ_DIR)/main.o
+
+task_set.o: task.o
+	$(CC)  $(CFLAGS) src/task_set/task_set.cpp -c -o $(OBJ_DIR)/task_set.o
+
+task.o:
+	$(CC)  $(CFLAGS) src/task/task.cpp -c -o $(OBJ_DIR)/task.o
+
+.PHONY: clean
 clean:
-	rm -f obj/* bin/*
+	$(RM) -rf $(OBJ_DIR) $(BIN_DIR)
 
 
